@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  whatsapp-todoist-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: whatsapp-todoist-bot
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      # Todoist API
+      - TODOIST_API_TOKEN
+      
+      # AI Models
+      - OPENAI_API_KEY
+      - OPENROUTER_API_KEY
+      - MODEL_PROVIDER=openai
+      - MODEL_NAME=gpt-4o-mini
+      
+      # WhatsApp Session
+      - WHATSAPP_SESSION_PATH=/app/auth
+      
+      # Redis (optional - for conversation context)
+      - REDIS_URL
+
+    volumes:
+      - whatsapp-auth:/app/auth
+
+    mem_limit: 512m
+    cpus: '0.5'
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    stdin_open: true
+    tty: true
+
+volumes:
+  whatsapp-auth:
+    driver: local
