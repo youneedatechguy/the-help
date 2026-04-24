@@ -2,6 +2,24 @@
 
 Self-hosted WhatsApp bot with LLM-powered Todoist integration using Baileys (pyaileys).
 
+## ⚠️ Required Environment Variables
+
+Before running the bot, you **must** set these environment variables:
+
+| Variable | Description | Example | Required? |
+|----------|-------------|---------|-----------|
+| `TODOIST_API_TOKEN` | Get from [Todoist Integrations](https://todoist.com/prefs/integrations) | `todoist_api_token_here` | ✅ Yes |
+| `OPENAI_API_KEY` | Get from [OpenAI API Keys](https://platform.openai.com/api-keys) | `sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx` | ✅ Yes |
+| `WHATSAPP_SESSION_PATH` | Directory to store WhatsApp auth session (used with Docker volume) | `/app/auth` | ✅ Yes (for persistence) |
+
+## 🔧 Optional Configuration
+
+| Variable | Description | Example | Required? |
+|----------|-------------|---------|-----------|
+| `MODEL_PROVIDER` | LLM provider: `openai` or `openrouter` (default: `openai`) | `openai` | No |
+| `MODEL_NAME` | Model to use (default: `gpt-4o-mini`) | `gpt-4o-mini` | No |
+| `REDIS_URL` | Redis URL for conversation context (optional) | `redis://localhost:6379` | No |
+
 ## Setup
 
 ### 1. Clone the repository
@@ -15,25 +33,9 @@ Copy the example environment file and configure your API keys:
 
 ```bash
 cp .env.example .env
-# Edit .env with your values
+# Edit .env with your values (at minimum, set the required variables above)
 nano .env
 ```
-
-**Required Environment Variables:**
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `TODOIST_API_TOKEN` | Get from [Todoist Integrations](https://todoist.com/prefs/integrations) | `todoist_api_token_here` |
-| `OPENAI_API_KEY` | Get from [OpenAI API Keys](https://platform.openai.com/api-keys) | `sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx` |
-| `MODEL_PROVIDER` | LLM provider: `openai` or `openrouter` (default: `openai`) | `openai` |
-| `MODEL_NAME` | Model to use (default: `gpt-4o-mini`) | `gpt-4o-mini` |
-
-**Optional Environment Variables:**
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `WHATSAPP_SESSION_PATH` | Directory to store WhatsApp auth session (default: `./auth`) | `./auth` |
-| `REDIS_URL` | Redis URL for conversation context (optional) | `redis://localhost:6379` |
 
 ### 3. Run with Docker Compose
 ```bash
